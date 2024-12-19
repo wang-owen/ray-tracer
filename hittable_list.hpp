@@ -3,8 +3,6 @@
 
 #include "hittable.hpp"
 
-#include <vector>
-
 class hittable_list : public hittable {
 public:
   std::vector<shared_ptr<hittable>> objects;
@@ -28,7 +26,6 @@ public:
         rec = temp_rec;
       }
     }
-
     return hit_anything;
   }
 };

@@ -1,7 +1,6 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "headers.hpp"
 #include "hittable.hpp"
 
 class camera {
@@ -27,7 +26,6 @@ public:
         write_color(std::cout, pixel_samples_scale * pixel_color);
       }
     }
-
     std::clog << "\rDone.                 \n";
   }
 
@@ -70,11 +68,12 @@ private:
 
   ray get_ray(int i, int j) const {
     // Construct a camera ray originating from the origin and directed at
-    // randomly sampled point around the pixel location i, j
+    // randomly sampled points around the pixel location i, j
 
     auto offset = sample_square();
     auto pixel_sample = pixel00_loc + ((i + offset.x()) * pixel_delta_u) +
                         ((j + offset.y()) * pixel_delta_v);
+
     auto ray_origin = center;
     auto ray_direction = pixel_sample - ray_origin;
 
@@ -82,17 +81,15 @@ private:
   }
 
   vec3 sample_square() const {
-    // Returns the vector to a random point in the [-.5, -.5] - [+.5, +.5] unit
+    // Returns the vector to a random point in the [-.5, -.5]-[+.5, +.5] unit
     // square
     return vec3(random_double() - 0.5, random_double() - 0.5, 0);
   }
 
   color ray_color(const ray &r, const hittable &world) const {
     hit_record rec;
-
     if (world.hit(r, interval(0, infinity), rec)) {
-      vec3 direction = random_on_hemisphere(rec.normal);
-      return 0.5 * ray_color(ray(rec.p, direction), world);
+      return 0.5 * (rec.normal + color(1, 1, 1));
     }
 
     vec3 unit_direction = unit_vector(r.direction());

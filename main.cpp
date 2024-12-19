@@ -1,10 +1,12 @@
+#include "common.hpp"
+
 #include "camera.hpp"
-#include "headers.hpp"
 #include "hittable.hpp"
 #include "hittable_list.hpp"
 #include "sphere.hpp"
 
 int main() {
+  // World
   hittable_list world;
 
   world.add(make_shared<sphere>(point3(0, 0, -1), 0.5));

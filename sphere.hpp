@@ -4,10 +4,6 @@
 #include "hittable.hpp"
 
 class sphere : public hittable {
-private:
-  point3 center;
-  double radius;
-
 public:
   sphere(const point3 &center, double radius)
       : center(center), radius(std::fmax(0, radius)) {}
@@ -25,12 +21,13 @@ public:
 
     auto sqrtd = std::sqrt(discriminant);
 
-    // Find the nearest root that lies in an acceptable range
+    // Find the nearest root that lies in the acceptable range
     auto root = (h - sqrtd) / a;
     if (!ray_t.surrounds(root)) {
       root = (h + sqrtd) / a;
-      if (!ray_t.surrounds(root))
+      if (!ray_t.surrounds(root)) {
         return false;
+      }
     }
 
     rec.t = root;
@@ -40,6 +37,10 @@ public:
 
     return true;
   }
+
+private:
+  point3 center;
+  double radius;
 };
 
 #endif
